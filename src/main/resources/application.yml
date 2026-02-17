@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: kura-b2c-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kura
+    username: ${DB_USERNAME:kura}
+    password: ${DB_PASSWORD:kura}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  flyway:
+    enabled: false
+
+kura:
+  cors:
+    allowed-origins: http://localhost:4200,http://localhost:4201
