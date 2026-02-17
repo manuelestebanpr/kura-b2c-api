@@ -4,9 +4,12 @@ import co.com.kura.b2c.api.dto.*;
 import co.com.kura.b2c.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Map;
 
 @RestController
@@ -31,13 +34,41 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         AuthResponse response = authService.register(request);
-        return ResponseEntity.ok(response);
+        
+        ResponseCookie cookie = ResponseCookie.from("KURA_SESSION", response.getToken())
+                .httpOnly(true)
+                .secure(true)
+                .domain(".kura.com.co")
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(Duration.ofHours(24))
+                .build();
+        
+        response.setToken(null);
+        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
-        return ResponseEntity.ok(response);
+        
+        ResponseCookie cookie = ResponseCookie.from("KURA_SESSION", response.getToken())
+                .httpOnly(true)
+                .secure(true)
+                .domain(".kura.com.co")
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(Duration.ofHours(24))
+                .build();
+        
+        response.setToken(null);
+        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(response);
     }
 
     @PostMapping("/password/reset")
