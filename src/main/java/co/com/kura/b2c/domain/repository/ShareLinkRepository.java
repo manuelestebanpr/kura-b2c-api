@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ShareLinkRepository extends JpaRepository<ShareLink, UUID> {
 
-    Optional<ShareLink> findByShareUuid(String shareUuid);
+    Optional<ShareLink> findByShareUuid(UUID shareUuid);
 }

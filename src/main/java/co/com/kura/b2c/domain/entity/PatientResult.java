@@ -24,17 +24,23 @@ public class PatientResult {
     @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
-    @Column(name = "order_item_id", nullable = false)
+    @Column(name = "order_item_id")
     private UUID orderItemId;
 
-    @Column(name = "patient_id", nullable = false)
+    @Column(name = "patient_id")
     private UUID patientId;
+
+    @Column(name = "pos_id", nullable = false)
+    private UUID posId;
 
     @Column(name = "status", nullable = false)
     private String status;
 
     @Column(name = "result_data", columnDefinition = "TEXT")
     private String resultData;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 
     @Column(name = "sample_taken_at")
     private OffsetDateTime sampleTakenAt;

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface LabOfferingRepository extends JpaRepository<LabOffering, UUID> {
 
-    Optional<LabOffering> findByPosIdAndMasterServiceIdAndDeletedAtIsNull(UUID posId, UUID masterServiceId);
+    Optional<LabOffering> findByPosIdAndServiceIdAndDeletedAtIsNull(UUID posId, UUID serviceId);
 
-    List<LabOffering> findByPosIdAndIsActiveTrueAndDeletedAtIsNull(UUID posId);
+    List<LabOffering> findByPosIdAndIsAvailableTrueAndDeletedAtIsNull(UUID posId);
 }

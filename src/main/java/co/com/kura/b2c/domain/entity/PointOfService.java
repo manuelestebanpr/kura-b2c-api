@@ -33,6 +33,9 @@ public class PointOfService {
     @Column(name = "city")
     private String city;
 
+    @Column(name = "department", nullable = false, length = 100)
+    private String department;
+
     @Column(name = "phone")
     private String phone;
 
