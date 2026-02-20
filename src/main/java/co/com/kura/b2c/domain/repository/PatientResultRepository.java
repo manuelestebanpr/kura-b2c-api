@@ -12,5 +12,5 @@ public interface PatientResultRepository extends JpaRepository<PatientResult, UU
 
     List<PatientResult> findByOrderId(UUID orderId);
 
-    List<PatientResult> findByPatientIdAndDeletedAtIsNull(UUID patientId);
+    List<PatientResult> findByPatientId(UUID patientId);
 }

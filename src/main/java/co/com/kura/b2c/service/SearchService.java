@@ -1,5 +1,6 @@
 package co.com.kura.b2c.service;
 
+import co.com.kura.b2c.api.dto.PosResponse;
 import co.com.kura.b2c.api.dto.SearchResponse;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,5 +53,17 @@ public class SearchService {
                         .basePrice(rs.getBigDecimal("base_price"))
                         .build(),
                 code);
+    }
+
+    @Cacheable(value = "pos-locations")
+    public List<PosResponse> getActivePointsOfService() {
+        String sql = "SELECT id, name, address, city, department FROM points_of_service WHERE deleted_at IS NULL AND is_active = true ORDER BY city, name";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> PosResponse.builder()
+                .id(UUID.fromString(rs.getString("id")))
+                .name(rs.getString("name"))
+                .address(rs.getString("address"))
+                .city(rs.getString("city"))
+                .department(rs.getString("department"))
+                .build());
     }
 }
