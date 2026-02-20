@@ -14,13 +14,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/v1/search/**",
                     "/api/v1/share/**",
-                    "/api/v1/health/**",
+                    "/api/v1/ping",
                     "/actuator/health",
                     "/actuator/info"
                 ).permitAll()
