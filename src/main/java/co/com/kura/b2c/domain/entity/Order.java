@@ -34,11 +34,26 @@ public class Order {
     @Column(name = "guest_email")
     private String guestEmail;
 
-    @Column(name = "guest_cedula")
-    private String guestCedula;
+    @Column(name = "guest_name")
+    private String guestName;
 
-    @Column(name = "total_amount", nullable = false, precision = 19, scale = 2)
-    private BigDecimal totalAmount;
+    @Column(name = "guest_phone", length = 20)
+    private String guestPhone;
+
+    @Column(name = "subtotal", nullable = false, precision = 12, scale = 2)
+    private BigDecimal subtotal;
+
+    @Column(name = "total", nullable = false, precision = 12, scale = 2)
+    private BigDecimal total;
+
+    @Column(name = "payment_method", nullable = false, length = 30)
+    private String paymentMethod;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
+    @Column(name = "expires_at")
+    private OffsetDateTime expiresAt;
 
     @Column(name = "status", nullable = false)
     private String status;

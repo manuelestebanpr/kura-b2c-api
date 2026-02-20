@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface BundleItemRepository extends JpaRepository<BundleItem, UUID> {
 
-    List<BundleItem> findByBundleServiceId(UUID bundleServiceId);
+    List<BundleItem> findByBundleId(UUID bundleId);
 }

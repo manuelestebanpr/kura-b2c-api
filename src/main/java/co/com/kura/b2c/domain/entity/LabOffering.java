@@ -25,15 +25,21 @@ public class LabOffering {
     @Column(name = "pos_id", nullable = false)
     private UUID posId;
 
-    @Column(name = "master_service_id", nullable = false)
-    private UUID masterServiceId;
+    @Column(name = "service_id", nullable = false)
+    private UUID serviceId;
+
+    @Column(name = "laboratory_id", nullable = false)
+    private UUID laboratoryId;
 
     @Column(name = "price", nullable = false, precision = 19, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_available", nullable = false)
     @Builder.Default
-    private boolean isActive = true;
+    private boolean isAvailable = true;
+
+    @Column(name = "turnaround_hours")
+    private Integer turnaroundHours;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

@@ -49,8 +49,11 @@ public class OrderService {
             .userId(userId)
             .posId(request.getPosId())
             .guestEmail(request.getGuestEmail())
-            .guestCedula(request.getGuestCedula())
-            .totalAmount(BigDecimal.ZERO)
+            .guestName(request.getGuestName())
+            .guestPhone(request.getGuestPhone())
+            .subtotal(BigDecimal.ZERO)
+            .total(BigDecimal.ZERO)
+            .paymentMethod(request.getPaymentMethod())
             .status("PENDING")
             .build();
 
@@ -65,16 +68,16 @@ public class OrderService {
 
             // Look up price from LabOffering, fallback to basePrice
             BigDecimal price = labOfferingRepository
-                .findByPosIdAndMasterServiceIdAndDeletedAtIsNull(request.getPosId(), service.getId())
+                .findByPosIdAndServiceIdAndDeletedAtIsNull(request.getPosId(), service.getId())
                 .map(LabOffering::getPrice)
                 .orElse(service.getBasePrice());
 
             OrderItem item = OrderItem.builder()
                 .orderId(savedOrder.getId())
-                .masterServiceId(service.getId())
+                .serviceId(service.getId())
                 .serviceName(service.getName())
                 .quantity(itemRequest.getQuantity())
-                .unitPrice(price)
+                .price(price)
                 .build();
 
             orderItemRepository.save(item);
@@ -82,7 +85,8 @@ public class OrderService {
         }
 
         // Update order total
-        savedOrder.setTotalAmount(totalAmount);
+        savedOrder.setSubtotal(totalAmount);
+        savedOrder.setTotal(totalAmount);
         orderRepository.save(savedOrder);
 
         // Generate walk-in ticket
@@ -104,9 +108,8 @@ public class OrderService {
 
         Payment payment = Payment.builder()
             .orderId(savedOrder.getId())
-            .provider("MercadoPago")
+            .paymentMethod("MERCADOPAGO")
             .externalId(paymentResult.externalId())
-            .checkoutUrl(paymentResult.checkoutUrl())
             .amount(totalAmount)
             .currency("COP")
             .status(paymentResult.status())
@@ -149,15 +152,15 @@ public class OrderService {
             .id(order.getId())
             .orderNumber(order.getOrderNumber())
             .posName(pos != null ? pos.getName() : null)
-            .totalAmount(order.getTotalAmount())
+            .totalAmount(order.getTotal())
             .status(order.getStatus())
             .items(items.stream()
                 .map(item -> OrderItemResponse.builder()
                     .id(item.getId())
-                    .masterServiceId(item.getMasterServiceId())
+                    .masterServiceId(item.getServiceId())
                     .serviceName(item.getServiceName())
                     .quantity(item.getQuantity())
-                    .unitPrice(item.getUnitPrice())
+                    .unitPrice(item.getPrice())
                     .build())
                 .collect(Collectors.toList()))
             .walkinTicket(ticket != null ? WalkinTicketResponse.builder()
@@ -168,9 +171,8 @@ public class OrderService {
                 .build() : null)
             .payment(payment != null ? PaymentResponse.builder()
                 .id(payment.getId())
-                .provider(payment.getProvider())
+                .paymentMethod(payment.getPaymentMethod())
                 .externalId(payment.getExternalId())
-                .checkoutUrl(payment.getCheckoutUrl())
                 .amount(payment.getAmount())
                 .currency(payment.getCurrency())
                 .status(payment.getStatus())

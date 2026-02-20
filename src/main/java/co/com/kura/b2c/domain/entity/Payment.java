@@ -25,17 +25,17 @@ public class Payment {
     @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
-    @Column(name = "provider", nullable = false)
-    private String provider;
+    @Column(name = "payment_method", nullable = false)
+    private String paymentMethod;
 
     @Column(name = "external_id")
     private String externalId;
 
-    @Column(name = "checkout_url")
-    private String checkoutUrl;
-
     @Column(name = "amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
+
+    @Column(name = "provider_response", columnDefinition = "jsonb")
+    private String providerResponse;
 
     @Column(name = "currency", nullable = false)
     @Builder.Default

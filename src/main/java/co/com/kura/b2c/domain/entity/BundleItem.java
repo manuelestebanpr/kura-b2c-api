@@ -21,14 +21,17 @@ public class BundleItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "bundle_service_id", nullable = false)
-    private UUID bundleServiceId;
+    @Column(name = "bundle_id", nullable = false)
+    private UUID bundleId;
 
-    @Column(name = "single_service_id", nullable = false)
-    private UUID singleServiceId;
+    @Column(name = "service_id", nullable = false)
+    private UUID serviceId;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
+
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

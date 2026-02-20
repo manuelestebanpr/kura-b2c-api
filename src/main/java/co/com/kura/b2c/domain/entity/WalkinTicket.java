@@ -24,8 +24,14 @@ public class WalkinTicket {
     @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
+    @Column(name = "pos_id", nullable = false)
+    private UUID posId;
+
     @Column(name = "ticket_code", nullable = false, unique = true)
     private String ticketCode;
+
+    @Column(nullable = false, length = 20)
+    private String status;
 
     @Column(name = "expires_at", nullable = false)
     private OffsetDateTime expiresAt;

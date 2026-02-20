@@ -25,14 +25,17 @@ public class ShareLink {
     private UUID resultId;
 
     @Column(name = "share_uuid", nullable = false, unique = true)
-    private String shareUuid;
+    private UUID shareUuid;
 
     @Column(name = "expires_at", nullable = false)
     private OffsetDateTime expiresAt;
 
-    @Column(name = "access_count", nullable = false)
+    @Column(name = "accessed_count", nullable = false)
     @Builder.Default
-    private int accessCount = 0;
+    private int accessedCount = 0;
+
+    @Column(name = "created_by")
+    private UUID createdBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

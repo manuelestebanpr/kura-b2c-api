@@ -15,9 +15,8 @@ import java.util.UUID;
 public class PaymentResponse {
 
     private UUID id;
-    private String provider;
+    private String paymentMethod;
     private String externalId;
-    private String checkoutUrl;
     private BigDecimal amount;
     private String currency;
     private String status;

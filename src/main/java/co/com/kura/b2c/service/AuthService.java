@@ -13,10 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 @Slf4j
@@ -173,7 +173,7 @@ public class AuthService {
     }
 
     private String generateOtpCode() {
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         int code = 100000 + random.nextInt(900000);
         return String.valueOf(code);
     }

@@ -40,8 +40,12 @@ public class User {
     @Builder.Default
     private String role = "PATIENT";
 
-    @Column(name = "consent_ley_1581", nullable = false)
+    @Column(name = "consent_ley1581", nullable = false)
     private boolean consentLey1581;
+
+    @Column(name = "is_active", nullable = false)
+    @Builder.Default
+    private boolean isActive = true;
 
     @Column(name = "consent_date")
     private OffsetDateTime consentDate;

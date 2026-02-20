@@ -25,8 +25,8 @@ public class OrderItem {
     @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
-    @Column(name = "master_service_id", nullable = false)
-    private UUID masterServiceId;
+    @Column(name = "service_id", nullable = false)
+    private UUID serviceId;
 
     @Column(name = "service_name", nullable = false)
     private String serviceName;
@@ -34,8 +34,8 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "unit_price", nullable = false, precision = 19, scale = 2)
-    private BigDecimal unitPrice;
+    @Column(name = "price", nullable = false, precision = 19, scale = 2)
+    private BigDecimal price;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

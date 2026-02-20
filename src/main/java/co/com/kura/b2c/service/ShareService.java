@@ -34,7 +34,7 @@ public class ShareService {
         }
 
         // Increment access count
-        shareLink.setAccessCount(shareLink.getAccessCount() + 1);
+        shareLink.setAccessedCount(shareLink.getAccessedCount() + 1);
         shareLinkRepository.save(shareLink);
 
         // Get result
