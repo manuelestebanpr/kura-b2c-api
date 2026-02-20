@@ -36,7 +36,7 @@ public class PatientResult {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "result_data", columnDefinition = "TEXT")
+    @Column(name = "result_data", columnDefinition = "jsonb")
     private String resultData;
 
     @Column(columnDefinition = "TEXT")
