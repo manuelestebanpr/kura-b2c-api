@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,7 +25,7 @@ public class ShareService {
 
     @Transactional
     public ShareResponse getSharedResult(String shareUuid) {
-        ShareLink shareLink = shareLinkRepository.findByShareUuid(shareUuid)
+        ShareLink shareLink = shareLinkRepository.findByShareUuid(UUID.fromString(shareUuid))
             .orElseThrow(() -> new IllegalArgumentException("Share link not found"));
 
         // Check expiry
