@@ -3,12 +3,11 @@ package co.com.kura.b2c.service;
 import co.com.kura.b2c.api.dto.ShareResponse;
 import co.com.kura.b2c.domain.entity.PatientResult;
 import co.com.kura.b2c.domain.entity.ShareLink;
-import co.com.kura.b2c.domain.entity.User;
 import co.com.kura.b2c.domain.repository.PatientResultRepository;
 import co.com.kura.b2c.domain.repository.ShareLinkRepository;
-import co.com.kura.b2c.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ public class ShareService {
 
     private final ShareLinkRepository shareLinkRepository;
     private final PatientResultRepository patientResultRepository;
-    private final UserRepository userRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Transactional
     public ShareResponse getSharedResult(String shareUuid) {
@@ -41,14 +40,16 @@ public class ShareService {
         PatientResult result = patientResultRepository.findById(shareLink.getResultId())
             .orElseThrow(() -> new IllegalArgumentException("Result not found"));
 
-        // Get patient info
-        String patientName = userRepository.findById(result.getPatientId())
-            .map(User::getFullName)
-            .orElse("Unknown");
+        // Get patient name via JDBC (User entity removed — owned by Enterprise API)
+        String patientName = jdbcTemplate.query(
+            "SELECT full_name FROM users WHERE id = ?",
+            rs -> rs.next() ? rs.getString("full_name") : "Unknown",
+            result.getPatientId()
+        );
 
         return ShareResponse.builder()
             .patientName(patientName)
-            .serviceName(null) // Could be fetched from OrderItem if needed
+            .serviceName(null)
             .resultData(result.getResultData())
             .sharedAt(shareLink.getCreatedAt())
             .expiresAt(shareLink.getExpiresAt())

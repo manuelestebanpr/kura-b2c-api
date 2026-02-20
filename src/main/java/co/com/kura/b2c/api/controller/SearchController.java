@@ -1,7 +1,8 @@
 package co.com.kura.b2c.api.controller;
 
-import co.com.kura.b2c.service.SearchService;
+import co.com.kura.b2c.api.dto.PosResponse;
 import co.com.kura.b2c.api.dto.SearchResponse;
+import co.com.kura.b2c.service.SearchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,10 @@ public class SearchController {
     @GetMapping("/services/{code}")
     public ResponseEntity<SearchResponse> getServiceByCode(@PathVariable String code) {
         return ResponseEntity.ok(searchService.getServiceByCode(code));
+    }
+
+    @GetMapping("/pos")
+    public ResponseEntity<List<PosResponse>> getPointsOfService() {
+        return ResponseEntity.ok(searchService.getActivePointsOfService());
     }
 }
